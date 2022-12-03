@@ -1,14 +1,11 @@
-from ipaddress import IPv4Network
-from socket import gethostbyname, gethostname
-
 import netifaces
 
-ipv4 = gethostbyname(gethostname())
+interface = netifaces.ifaddresses("eth0")[netifaces.AF_LINK]
+ipaddress = netifaces.ifaddresses("eth0")[netifaces.AF_INET]
+
+mac = interface[0].get("addr")
+ipv4 = ipaddress[0].get("addr")
+netmask = ipaddress[0].get("netmask")
+print(mac)
 print(ipv4)
-
-segment = IPv4Network(ipv4, strict=True)
-print(segment)
-
-ip = netifaces.ifaddresses("eth0")
-
-print(ip)
+print(netmask)
